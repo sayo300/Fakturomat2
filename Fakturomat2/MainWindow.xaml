@@ -4,9 +4,107 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Fakturomat2"
+        xmlns:viewModel="clr-namespace:Fakturomat2.DB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="800" Width="1280">
+    <Window.DataContext>
+        <viewModel:FakturomatDB x:Name="_db"/>
+    </Window.DataContext>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.ColumnSpan="12">
+            <MenuItem Header="Plik">
+                <MenuItem Header="Archiwizuj"/>
+                <Separator/>
+                <MenuItem Header="Koniec"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <Button Grid.Row="1" Grid.Column="1" Margin="5,15" Content="Nowy klient F1" x:Name="newCustomerBtn" Click="newCustomerBtn_Click"></Button>
+        <Button Grid.Row="1" Grid.Column="2" Margin="5,15" Content="Nowa faktura F2" x:Name="newInvoiceBtn" Click="newInvoiceBtn_Click"></Button>
+        <Button Grid.Row="1" Grid.Column="3" Margin="5,15" Content="Lista faktur F3"></Button>
+        <Button Grid.Row="1" Grid.Column="4" Margin="5,15" Content="Raporty F4"></Button>
+        <Button Grid.Row="1" Grid.Column="5" Margin="5,15" Content="Wyjście"></Button>
+
+        <Label Grid.Row="1" Margin="25,20,0,0" Content="Klient" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom"/>
+        <GroupBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="9" Grid.RowSpan="3" Margin="15,0,7,0"  BorderThickness="1" BorderBrush="Black"></GroupBox>
+        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7" Margin="25,0,0,0" x:Name="nameCustomerLab" Content="Nazwa firmy" FontSize="16"></Label>
+        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="7" Margin="25,0,0,0" x:Name="nipCustomerLab" Content="Nip" FontSize="16"></Label>
+        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="7" Margin="25,0,0,0" x:Name="addressCustomerLab" Content="Adres firmy" FontSize="16" ></Label>
+
+        <GroupBox Grid.Row="5" Grid.ColumnSpan="9" Grid.RowSpan="5" Margin="15,15,7,0" Content="Faktura" BorderBrush="Black" ></GroupBox>
+        <Label x:Name="smallNumberInvoiceLab" Grid.Column="0" Grid.Row="5" Margin="25,30,0,0" Grid.ColumnSpan="2"></Label>
+        <Label Grid.Column="0" Grid.Row="6"  Margin="25,20,0,0" Grid.ColumnSpan="2" x:Name="nettoLab"></Label>
+        <Label Grid.Column="3" Grid.Row="6"  Margin="0,20,0,0" Grid.ColumnSpan="2" x:Name="bruttoLab"></Label>
+        <Label Grid.Column="6" Grid.Row="6"  Margin="15,20,0,0" Grid.ColumnSpan="2" x:Name="vatLab"></Label>
+        <Label Grid.Row="7" Grid.ColumnSpan="4" Margin="25,20,0,0" x:Name="DateInvoiceLab"></Label>
+        <TextBlock Grid.Row="8" TextWrapping="Wrap" Grid.ColumnSpan="8" Grid.RowSpan="2" Margin="25,5,0,5" x:Name="DescriptonOfProductsTxb"></TextBlock>
         
+        <Label  Content="Nazwa firmy" FontSize="16"  Grid.Column="9" Grid.Row="3" Grid.ColumnSpan="3" Margin="8,0,15,0"></Label>
+        <TextBox x:Name="searchNameCustomersTxb" Grid.Column="9" Grid.Row="4" FontSize="20" Grid.ColumnSpan="3" Margin="8,0,15,0"></TextBox>
+        <DataGrid IsReadOnly="True" x:Name="customerDG" AutoGenerateColumns="False" Grid.Column="9" Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="10" Margin="8,0,15,0" SelectionChanged="customerDG_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nazwa" Binding="{Binding NameCompany}" Width="*"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        <Button Grid.Row="15" Grid.Column="11" Margin="5,0,17,25" Content="Usuń" x:Name="deleteCustomerBtn" Click="deleteCustomerBtn_Click"></Button>
+        <Button Grid.Row="15" Grid.Column="10" Margin="17,0,5,25" Content="Edytuj" x:Name="editCustomerBtn"></Button>
+        
+        
+        <Label x:Name="NumberInvoiceLab" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="3" Margin="15,20,0,0" Content="Numer faktury" FontSize="16"></Label>
+        <TextBox x:Name="searchNumberInvoiceTxb" Grid.Column="6" Grid.Row="10" Grid.ColumnSpan="3" Margin="0,20,8,0" FontSize="16"></TextBox>
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" x:Name="invoiceDG" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="9" Grid.RowSpan="4" Margin="15,0,7,0" SelectionChanged="invoiceDG_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Numer faktury">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path=NumberInvoices}"/>
+                                <TextBlock Text="/"/>
+                                <TextBlock Text="{Binding Path=YearInvoices}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Data" Binding="{Binding DateInvoices}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Netto" Binding="{Binding netto}"  Width="*"></DataGridTextColumn>
+               
+            </DataGrid.Columns>
+            
+        </DataGrid>
+        <Button Grid.Row="15" Grid.Column="8" Margin="5,0,8,25" Content="Usuń" x:Name="deleteInvoiceBtn" Click="deleteInvoiceBtn_Click"></Button>
+        <Button Grid.Row="15" Grid.Column="7" Margin="8,0,5,25" Content="Edytuj" x:Name="editInvoiceBtn"></Button>
+
     </Grid>
 </Window>
